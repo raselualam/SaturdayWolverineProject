@@ -1,7 +1,10 @@
 package upskill.ebay.pageElements;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import upskill.utilities.SetupDrivers;
 
 public class EbayHomePageLocators {
 	
@@ -20,4 +23,8 @@ public class EbayHomePageLocators {
 	//Summary
 	@FindBy(xpath="//a[contains(text(),'Summary')]")
 	public WebElement linkSummary;
+	
+	//Locators using without Page Factory
+	public WebElement test = SetupDrivers.driver.findElement(By.xpath("//input[contains(@value, 'Search')]"));
+
 }

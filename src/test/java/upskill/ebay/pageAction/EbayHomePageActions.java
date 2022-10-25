@@ -1,6 +1,8 @@
 package upskill.ebay.pageAction;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -8,8 +10,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import upskill.ebay.pageElements.EbayHomePageLocators;
+import upskill.utilities.ReadExcelSheet;
 import upskill.utilities.SetupDrivers;
 
 public class EbayHomePageActions {
@@ -21,8 +27,28 @@ public class EbayHomePageActions {
 		PageFactory.initElements(SetupDrivers.driver, EbayHomePageLocatorsObj);
 	}
 	
+	public void loadHomepage(){
+		//Selenium Wait : 1. Implicit wait(Global), 2. Explicit wait(Conditional), 3. Fluent wait(intermittent)
+		
+		SetupDrivers.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);				//Implicit Wait
+		
+		WebDriverWait wait = new WebDriverWait(SetupDrivers.driver, 20);
+		wait.until(ExpectedConditions.elementToBeClickable(EbayHomePageLocatorsObj.txtbxSearch));	//Explicit wait
+		
+		FluentWait fluentWait = new FluentWait(SetupDrivers.driver);								//Fluent Wait
+						fluentWait.withTimeout(20, TimeUnit.SECONDS);
+						fluentWait.pollingEvery(5, TimeUnit.SECONDS);
+						fluentWait.ignoring(NoSuchElementException.class);
+						fluentWait.withMessage("Fluent Wait Time exceeded");
+	}
+	
 	public void searchShoes(){
 		EbayHomePageLocatorsObj.txtbxSearch.sendKeys("Shoes");
+		EbayHomePageLocatorsObj.btnSearch.click();
+	}
+	
+	public void searchShoesFromExcel() throws Exception{
+		EbayHomePageLocatorsObj.txtbxSearch.sendKeys(ReadExcelSheet.getMapData("Search"));
 		EbayHomePageLocatorsObj.btnSearch.click();
 	}
 	
