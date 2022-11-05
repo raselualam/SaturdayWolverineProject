@@ -1,0 +1,10 @@
+{
+    "status": "success",
+    "data": {
+        "name": "Rasel",
+        "salary": "120000",
+        "age": "23",
+        "id": 7507
+    },
+    "message": "Successfully! Record has been added."
+}
